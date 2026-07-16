@@ -129,7 +129,7 @@ export async function login(req, res) {
             username: user.username,
             email: user.email,
         },
-        acccessToken,
+        accessToken,
     })
 }
 
