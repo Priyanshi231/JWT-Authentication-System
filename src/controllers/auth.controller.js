@@ -129,7 +129,7 @@ export async function login(req, res) {
             username: user.username,
             email: user.email,
         },
-        acccessToken,
+        accessToken,
     })
 }
 
@@ -242,4 +242,30 @@ export async function logout(req, res) {
         message: "Logged out successfully"
     }) 
 
+}
+
+export async function logoutAll(req, res) {
+
+    const refreshToken = req.cookies.refreshToken;
+
+    if(!refreshToken){
+        return res.status(401).json({
+            message: "Refresh token not found"
+        })
+    }
+
+    const decoded = jwt.verify(refreshToken, config.JWT_SECRET);
+
+    await sessionModel.updateMany({
+        user: decoded.id,
+        revoked: false
+    },{
+        revoked: true
+    })
+
+    res.clearCookie("refreshToken");
+
+    res.status(200).json({
+        message: "Logged out from all devices successfully"
+    })
 }

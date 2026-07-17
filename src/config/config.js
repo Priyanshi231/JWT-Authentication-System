@@ -6,6 +6,7 @@ if(!process.env.MONGODB_URI ){
     throw new Error("Please provide MONGODB_URI in .env file");
 }
 
+
 if(!process.env.JWT_SECRET){
     throw new Error("Please provide JWT_SECRET in .env file");
 }
