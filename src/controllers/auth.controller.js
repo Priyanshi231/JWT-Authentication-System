@@ -281,9 +281,11 @@ export async function verifyEmail(req, res) {
         })
     }
 
-    const user = await userModel.findByIdAndUpdate(otpRecord.user,{
-        verified: true
-    });
+    const user = await userModel.findByIdAndUpdate(
+        otpRecord.user,
+        { verified: true },
+        { new: true }
+    );
 
     await otpModel.deleteMany({
         user: otpRecord.user
