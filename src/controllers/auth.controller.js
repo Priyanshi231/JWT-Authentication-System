@@ -260,8 +260,15 @@ export async function logoutAll(req, res) {
 }
 
 export async function verifyEmail(req, res) {
-    const {email,otp} = req.body;
-    const otpHash = crypto.createHash("sha256").update(otp).digest("hex");
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+        return res.status(400).json({
+            message: "Email and OTP are required"
+        });
+    }
+
+    const otpHash = crypto.createHash("sha256").update(String(otp)).digest("hex");
 
     const otpRecord = await otpModel.findOne({
         email,
